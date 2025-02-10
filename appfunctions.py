@@ -1,0 +1,41 @@
+import random
+import string
+from datetime import datetime, timedelta , date
+
+
+def generate_random_string():
+    def random_segment(length=4):
+        return ''.join(random.choices(string.ascii_letters + string.digits, k=length))
+
+    return '-'.join(random_segment() for _ in range(4))
+
+
+
+
+
+def set30daysnext():
+    today = date.today()
+    try:
+        date_obj = datetime.combine(today, datetime.min.time())
+        
+        new_date = date_obj + timedelta(days=30)
+        
+        return new_date.date()
+    except Exception as e:
+        print("خطا:", e)
+        return None 
+
+
+
+def sendtoday ():
+    return date.today()
+
+
+
+
+def check_reques (request):
+    for i in list(request.keys()):
+        if len(i) == 0 and i == "" :
+            return False
+    return True
+            

@@ -1,10 +1,14 @@
 from flask import *
 from flask_cors import *
 from database import *
+
+#subapps
 from admins.admins import admins
 from cars.routes import cars as car_bp
 from shops.routes import shops
 from tokens.routes import tokens
+from users.route import users
+
 from extensions import db
 from config import SQLALCHEMY_DATABASE_URI , SQLALCHEMY_BINDS
 from apiseting import api_seciurety
@@ -25,6 +29,7 @@ app.register_blueprint(admins)
 app.register_blueprint(car_bp)
 app.register_blueprint(tokens)
 app.register_blueprint(shops)
+app.register_blueprint(users)
 
 @app.post("/")
 def homeurl():
@@ -41,14 +46,22 @@ def Errors(e):
         return {
             "error" : "method not allowd"
         } , e.code
-    if e.code == 404:
+    elif e.code == 404:
         return {
             "error" : "page not found"
         } , e.code
-    if e.code == 403:
+    elif e.code == 403:
         return {
             "error" : "permision error"
         }
+    elif e.code == 500 :
+        return {
+            "error": "system error"
+        } , e.code
+    elif e.code == 204:
+        return {
+            "error": "fill all the blancks "
+        } , e.code
 
 
 db.init_app(app)
