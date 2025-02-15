@@ -42,6 +42,7 @@ def homeurl():
 
 @app.errorhandler(Exception)
 def Errors(e):
+    print(e)
     if e.code == 405:
         return {
             "error" : "method not allowd"

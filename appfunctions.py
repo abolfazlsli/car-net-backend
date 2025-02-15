@@ -34,7 +34,8 @@ def sendtoday ():
 
 
 def check_reques (request):
-    for i in list(request.keys()):
+    print(request.form.keys())
+    for i in list(request.form.keys()):
         if len(i) == 0 and i == "" :
             return False
     return True
