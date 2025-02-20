@@ -1,0 +1,27 @@
+/* CSS */
+.color-1 {
+    color: #f59f0a;
+  }
+  .color-2 {
+    color: #f8d31b;
+  }
+  .color-3 {
+    color: #f8e5a0;
+  }
+  .color-4 {
+    color: #d3a50d;
+  }
+  .color-5 {
+    color: #c67b0c;
+  }
+  .pentcolor { 
+    color : #fffd92;
+  }
+  /* CSS Variables */
+  :root {
+    --color-1: #f59f0a;
+    --color-2: #f8d31b;
+    --color-3: #f8e5a0;
+    --color-4: #d3a50d;
+    --color-5: #c67b0c;
+  }
