@@ -84,12 +84,14 @@ def editUser () :
     lastname = request.form.get("lastname")
     phone = request.form.get("phone")
     userid = Tokens.query.filter_by(key = token).first().user
-    user = Users().query.filter_by(digitalid = userid)
+    user = Users.query.filter_by(digitalid = userid)
+    return "done"
     
 
 @users.post("/check/username")
 def checkuser () :
     data = request.form.get("username")
+    print(data)
     user = Users.query.filter_by(username = data)
     if user.count () > 0 : 
         return {
