@@ -83,8 +83,14 @@ def editUser () :
     name = request.form.get("name")
     lastname = request.form.get("lastname")
     phone = request.form.get("phone")
+    username = request.form.get("username")
     userid = Tokens.query.filter_by(key = token).first().user
     user = Users.query.filter_by(digitalid = userid)
+    user.first().name = name
+    user.first().lastname = lastname
+    user.first().phone = phone
+    user.first().username = username
+    db.session.commit()
     return "done"
     
 
