@@ -86,10 +86,12 @@ def editUser () :
     username = request.form.get("username")
     userid = Tokens.query.filter_by(key = token).first().user
     user = Users.query.filter_by(digitalid = userid)
+    activity = Activity(user.first().digitalid , "تغییرات" , "done" , generate_random_string())
     user.first().name = name
     user.first().lastname = lastname
     user.first().phone = phone
     user.first().username = username
+    db.session.add(activity)
     db.session.commit()
     return "done"
     
@@ -107,3 +109,22 @@ def checkuser () :
         return {
             "data" : False
         }
+
+
+
+@users.post("/send/activiy")
+def sendactivys():
+    token = request.form.get("token")
+    userid = Tokens.query.filter_by(key = token)
+    useractivty = Activity.query.filter_by(userid = userid.first().user).all()
+   
+    apidata = [
+       {
+           "action" : columns.action ,
+           "status" : columns.status,
+           "date" : columns.date
+       } for columns in useractivty
+   ]
+    return {
+        "apidata" : apidata
+    }
