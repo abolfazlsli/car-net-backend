@@ -11,3 +11,15 @@ def carshome():
     return { 
         "data" : 'welcom cars'
     }
+
+
+@cars.get("/brands")
+def get_all_models():
+    models = Brands.query.all()
+    apidata = [{
+        "label" : i.brandname ,
+        "value" : i.brandid 
+    } for i in models]
+    return {
+        "apidata" : apidata
+    }

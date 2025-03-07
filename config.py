@@ -4,6 +4,7 @@ SQLALCHEMY_BINDS  = {
     "cars" : "sqlite:///cars.db",
     "tokens" : "sqlite:///tokens.db" , 
     "shops" : 'sqlite:///shops.db' , 
-    'users' : 'sqlite:///users.db'
+    'users' : 'sqlite:///users.db' , 
+    "models" : "sqlite:///filters.db"
 } 
 SQLALCHEMY_TRACK_MODIFICATIONS = False
