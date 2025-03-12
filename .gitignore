@@ -2,3 +2,7 @@
 
 # dependencies
 /instance/
+/cert.pem
+/key.pem
+/localhost.pem
+/localhost-key.pem

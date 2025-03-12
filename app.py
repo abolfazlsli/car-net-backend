@@ -1,5 +1,6 @@
 from flask import *
 from flask_cors import *
+import hypercorn.asyncio
 from database import *
 
 #subapps
@@ -13,6 +14,10 @@ from extensions import db
 from config import SQLALCHEMY_DATABASE_URI , SQLALCHEMY_BINDS
 from apiseting import api_seciurety
 from flask_cors import CORS, cross_origin
+import hypercorn
+import asyncio
+
+
 
 
 app = Flask(__name__)
@@ -72,5 +77,11 @@ app.app_context().push()
 db.create_all()
 
 
+config = hypercorn.Config()
+config.bind = ["localhost:4433"]
+config.alpn_protocols = ['h3']
 
-app.run(debug=True)
+
+
+asyncio.run(hypercorn.asyncio.serve(app, config))
+
