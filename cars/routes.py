@@ -9,7 +9,7 @@ cars = Blueprint(name="cars" , import_name=__name__, url_prefix="/cars")
 @cars.post("/")
 def carshome():
     return { 
-        "data" : 'welcom cars'
+        "data" : 'welcom cars from dev'
     }
 
 

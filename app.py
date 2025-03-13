@@ -10,12 +10,13 @@ from shops.routes import shops
 from tokens.routes import tokens
 from users.route import users
 
+#modules 
+
 from extensions import db
 from config import SQLALCHEMY_DATABASE_URI , SQLALCHEMY_BINDS
 from apiseting import api_seciurety
 from flask_cors import CORS, cross_origin
-import hypercorn
-import asyncio
+import hypercorn , asyncio , sys
 
 
 
@@ -77,11 +78,20 @@ app.app_context().push()
 db.create_all()
 
 
-config = hypercorn.Config()
-config.bind = ["localhost:4433"]
-config.alpn_protocols = ['h3']
 
 
 
-asyncio.run(hypercorn.asyncio.serve(app, config))
+if len(sys.argv) > 1:
+    if sys.argv[1] == "dev":
+        app.run(debug=True ,host="0.0.0.0", port=4433)
+    elif sys.argv[1] == "prod":
+        config = hypercorn.Config()
+        config.bind = ["0.0.0.0:4433"]
+        config.alpn_protocols = ['h3']
+        asyncio.run(hypercorn.asyncio.serve(app, config))        
+else:
+    config = hypercorn.Config()
+    config.bind = ["0.0.0.0:4433"]
+    config.alpn_protocols = ['h3']
+    asyncio.run(hypercorn.asyncio.serve(app, config))
 
