@@ -2,9 +2,10 @@ from extensions import db
 
 class Cars (db.Model):
     __bind_key__ = "cars"
-    def __init__(self , name, carid , brandid , title , description , price , images_dir , imagecover , status , expire_date , views , created_at , updated_at):
+    def __init__(self , name, carid , model, brandid , title , description , price , images_dir , imagecover , status , expire_date , views , created_at , updated_at):
         self.name = name
         self.carid = carid
+        self.model = model
         self.brandid = brandid
         self.title = title
         self.description = description
@@ -30,6 +31,7 @@ class Cars (db.Model):
     views = db.Column(db.Integer , nullable = False)
     created_at = db.Column(db.String , nullable = False)
     updated_at = db.Column(db.String , nullable = False)
+    model = db.Column(db.String , nullable = False)
 
 
 class Brands (db.Model):
@@ -41,27 +43,32 @@ class Brands (db.Model):
     brandid = db.Column(db.String , nullable = False , unique = True)
     brandname = db.Column(db.String , nullable = False)
 
-class BrandFiles (db.Model):
+class BrandFeilds (db.Model):
     __bind_key__ = "cars"
-    def __init__(self , brandid , filetype , filename):
+    def __init__(self , brandid , fieldtype , fieldname , options , fieldlabel):
         self.brandid = brandid
-        self.filetype = filetype
-        self.filename = filename
+        self.fieldtype = fieldtype
+        self.fieldname = fieldname
+        self.options = options
+        self.fieldlabel = fieldlabel
     id = db.Column(db.Integer , primary_key = True)
     brandid = db.Column(db.String , nullable = False)
-    filetype = db.Column(db.String , nullable = False)
-    filename = db.Column(db.String , nullable = False)
+    fieldtype = db.Column(db.String , nullable = False)
+    fieldname = db.Column(db.String , nullable = False)
     options = db.Column(db.String , nullable = False)
+    fieldlabel = db.Column(db.String , nullable = False)
 
-class FullFiles (db.Model):
+class FullFeilds (db.Model):
     __bind_key__ = "cars"
-    def __init__(self , carid , filetype , filename , fileidvalue):
+    def __init__(self , carid , fieldtype , fieldname , fieldvalue , fieldlabel):
         self.carid = carid
-        self.filetype = filetype
-        self.filename = filename
-        self.fileidvalue = fileidvalue
+        self.fieldtype = fieldtype
+        self.fieldname = fieldname
+        self.fieldvalue = fieldvalue
+        self.fieldlabel = fieldlabel
     id = db.Column(db.Integer , primary_key = True)
     carid = db.Column(db.String , nullable = False)
-    filetype = db.Column(db.String , nullable = False)
-    filename = db.Column(db.String , nullable = False)
-    fileidvalue = db.Column(db.String , nullable = False)
+    fieldtype = db.Column(db.String , nullable = False)
+    fieldname = db.Column(db.String , nullable = False)
+    fieldvalue = db.Column(db.String , nullable = False)
+    fieldlabel = db.Column(db.String , nullable = False)

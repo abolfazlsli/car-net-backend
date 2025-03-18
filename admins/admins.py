@@ -1,8 +1,12 @@
 from flask import *
 from admins.admins_module import *
 from apiseting.api_seciurety import checksubapp , checkapikey
-from cars.cars_module import Brands , BrandFiles
+from cars.cars_module import Brands , BrandFeilds
 from appfunctions import generate_random_string
+
+
+
+
 admins = Blueprint(name="admins" , import_name=__name__ , url_prefix="/admins")
 
 
@@ -26,8 +30,8 @@ def addbrand () :
     feilds = data.get("feilds")
     brandid = generate_random_string()
     for i in feilds:
-        brandfile = BrandFiles(brandid , i.get("filetype") , i.get("filename") , i.get("options"))
-        db.session.add(brandfile)
+        brandfeild = BrandFeilds(brandid , i.get("feildtype") , i.get("feildname") , str(i.get("options")) , i.get("fieldlabel"))
+        db.session.add(brandfeild)
     brand = Brands(brandname , brandid)
     db.session.add(brand)
     db.session.commit()

@@ -17,8 +17,9 @@ def homeshop ( ):
 
 @shops.post("/add")
 def addShop ():
+    data = request.json
     digiid = generate_random_string()
-    shop = Shop() 
+    shop = Shop(digiid , data.get("shopname") , "" , data.get("address") , data.get("phone") , data.get("profilepic") , data.get("bio") , data.get("banner") , data.get("dirtoken")) 
     # adding connectionid to user and shop to database filds
     return {
         "apidata" : ""
