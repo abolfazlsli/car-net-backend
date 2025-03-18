@@ -47,7 +47,7 @@ def getbrandfilds():
 def addcar():
     data = request.json
     carid = generate_random_string()
-    path = f"./assets/{carid}"
+    path = f"./cars/assets/{carid}"
     os.makedirs(path)
     images_dir = path
     fields = data.get("fields")

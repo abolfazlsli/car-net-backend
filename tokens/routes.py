@@ -9,7 +9,8 @@ tokens = Blueprint("tokens" , import_name=__name__ , url_prefix="/tokens")
 
 @tokens.post("/check")
 def checktoken () :
-    tok = Tokens.query.filter_by(key = request.form.get('token'))
+    data = request.json
+    tok = Tokens.query.filter_by(key = data.get('token'))
     if tok.count() > 0:
         return {
             "data" : "exist"

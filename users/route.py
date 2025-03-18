@@ -41,7 +41,8 @@ def adduser () :
 
 @users.post("/login")
 def loginuser ():
-    user = Users.query.filter_by(phone = request.form.get("phone") , password = request.form.get("password"))
+    data = request.json
+    user = Users.query.filter_by(phone = data.get("phone") , password = data.get("password"))
     if user.count() > 0:
         token_key = generate_random_string()
         user_key = user.first().digitalid
@@ -63,8 +64,8 @@ def loginuser ():
 
 @users.post("/me")
 def me () :
-    data = request.form['token']
-    tok = Tokens.query.filter_by(key = data)
+    data = request.json
+    tok = Tokens.query.filter_by(key = data.get("token"))
     userinfo = Users.query.filter_by(digitalid = tok.first().user)
     apidata = {
         "username" : userinfo.first().username , 
@@ -79,11 +80,12 @@ def me () :
 
 @users.post("/edituser") 
 def editUser () :
-    token = request.form.get("token")
-    name = request.form.get("name")
-    lastname = request.form.get("lastname")
-    phone = request.form.get("phone")
-    username = request.form.get("username")
+    data = request.json
+    token = data.get("token")
+    name = data.get("name")
+    lastname = data.get("lastname")
+    phone = data.get("phone")
+    username = data.get("username")
     userid = Tokens.query.filter_by(key = token).first().user
     user = Users.query.filter_by(digitalid = userid)
     activity = Activity(user.first().digitalid , "تغییرات" , "done" , generate_random_string())
@@ -98,9 +100,9 @@ def editUser () :
 
 @users.post("/check/username")
 def checkuser () :
-    data = request.form.get("username")
-    print(data)
-    user = Users.query.filter_by(username = data)
+    data = request.json
+    username = data.get("username")
+    user = Users.query.filter_by(username = username)
     if user.count () > 0 : 
         return {
             "data" : True
@@ -114,7 +116,8 @@ def checkuser () :
 
 @users.post("/send/activiy")
 def sendactivys():
-    token = request.form.get("token")
+    data = request.json
+    token = data.get("token")
     userid = Tokens.query.filter_by(key = token)
     useractivty = Activity.query.filter_by(userid = userid.first().user).all()
    
