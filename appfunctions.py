@@ -1,5 +1,4 @@
-import random
-import string
+import random ,string, os
 from datetime import datetime, timedelta , date
 
 
@@ -39,4 +38,13 @@ def check_reques (request):
         if len(i) == 0 and i == "" :
             return False
     return True
-            
+
+
+def check_path (path) :
+    return os.path.exists(path)
+
+
+
+def makeDir (name):
+    os.mkdir(name)
+    
