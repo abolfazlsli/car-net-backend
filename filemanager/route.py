@@ -4,7 +4,7 @@ from appfunctions import generate_random_string , check_path , makeDir
 from sqlalchemy import or_
 
 
-filemanager = Blueprint(name="filemanager" , import_name=__name__ , url_prefix="files")
+filemanager = Blueprint(name="filemanager" , import_name=__name__ , url_prefix="/files")
 
 
 

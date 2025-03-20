@@ -9,7 +9,7 @@ from cars.routes import cars as car_bp
 from shops.routes import shops
 from tokens.routes import tokens
 from users.route import users
-
+from filemanager.route import filemanager
 #modules 
 
 from extensions import db
@@ -36,6 +36,7 @@ app.register_blueprint(car_bp)
 app.register_blueprint(tokens)
 app.register_blueprint(shops)
 app.register_blueprint(users)
+app.register_blueprint(filemanager)
 
 @app.post("/")
 def homeurl():
