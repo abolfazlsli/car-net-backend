@@ -20,10 +20,10 @@ def homeshop ():
 @shops.post("/add")
 def addShop ():
     data = request.json
-    userinformation = Tokens.query.filter_by(token = data.get("token")).first()
+    userinformation = Tokens.query.filter_by(key = data.get("token")).first()
+    print(userinformation)
     shopdigiid = generate_random_string()
-    assetssdir = f"./shops/assets/{shopdigiid}"
-    os.makedirs(assetssdir)
+    assetssdir = f"./filemanager/files/{userinformation.user}"
     shop = Shop(userinformation.user , shopdigiid , data.get("name") , data.get("address") , data.get("phone") , data.get("profilepic") , data.get("bio") , data.get("banner") , assetssdir)
     db.session.add(shop)
     db.session.commit()

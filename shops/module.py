@@ -17,7 +17,7 @@ class Shop(db.Model):
     id = db.Column(db.Integer , primary_key = True)
     userdigitid = db.Column(db.String , nullable = False)
     digitid = db.Column(db.String , unique = True , nullable = False)
-    name = db.Column(db.String , nullable = False)
+    name = db.Column(db.String , nullable = False , unique = True)
     address = db.Column(db.String , nullable = True)
     phone = db.Column(db.String , nullable = False , unique = True)
     profilepic = db.Column(db.String , nullable = True)

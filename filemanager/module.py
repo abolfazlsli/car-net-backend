@@ -2,9 +2,9 @@ from extensions import db
 
 class FileManager (db.Model) :
     __bind_key__ = "files"
-    def __init__(self , filename, usekey, fileid , dicription , title , digitaldilename , create_at) :
+    def __init__(self , filename, senderid, fileid , dicription , title , digitaldilename , create_at) :
         self.filename = filename
-        self.usekey = usekey
+        self.senderid = senderid
         self.fileid = fileid
         self.dicription = dicription
         self.title = title
@@ -12,7 +12,7 @@ class FileManager (db.Model) :
         self.create_at = create_at
     id = db.Column(db.Integer , primary_key = True)
     filename = db.Column(db.String , nullable = False)
-    usekey = db.Column(db.String , nullable = False)
+    senderid = db.Column(db.String , nullable = False)
     fileid = db.Column(db.String , nullable = False , unique = True) # xxx-xxx-xxx-xxx
     dicription = db.Column(db.String , nullable = False)
     title = db.Column(db.String , nullable = False)
