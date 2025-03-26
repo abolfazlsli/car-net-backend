@@ -11,6 +11,9 @@ def generate_random_string():
 
 
 
+def removefile (name) :
+    os.remove(name)
+
 
 def set30daysnext():
     today = date.today()

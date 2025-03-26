@@ -54,7 +54,8 @@ def checkshop ():
 @shops.post("/getshop")
 def getshop ():
     data = request.json
-    shop = Shop.query.filter_by(digitid = data.get("shopid"))
+    user = Tokens.query.filter_by(key = data.get("token"))
+    shop = Shop.query.filter_by(userdigitid = user.first().user)
     if not shop.count() == 0:
         apidata = {
             "name" : shop.first().name ,
@@ -63,7 +64,6 @@ def getshop ():
             "profilepic" : shop.first().profilepic ,
             "bio" : shop.first().bio ,
             "banner" : shop.first().banner ,
-            "assetssdir" : shop.first().assetssdir
         }
     else : 
         apidata = {
@@ -72,3 +72,19 @@ def getshop ():
     return {
         "apidata" : apidata
     }
+
+
+
+@shops.post("/editpics")
+def editpic () :
+    data = request.json
+    user = Tokens.query.filter_by(key = data.get("token"))
+    shop = Shop.query.filter_by(userdigitid = user.first().user)
+    if data.get("type") == "banner" : 
+        shop.first().banner = data.get("picname")
+    elif data.get("type") == "profile" : 
+        shop.first().profilepic = data.get("picname")
+    db.session.commit()
+    return {
+        "apidata" : "pic chnaged" 
+    } , 200
