@@ -2,7 +2,8 @@ from extensions import db
 
 class Cars (db.Model):
     __bind_key__ = "cars"
-    def __init__(self , name, carid , model, brandid , title , description , price , images_dir , imagecover , status , expire_date , views , created_at , updated_at):
+    def __init__(self , ownerid , name, carid , model, brandid , title , description , price , images_dir , imagecover , status , expire_date , views , created_at , updated_at):
+        self.ownerid = ownerid
         self.name = name
         self.carid = carid
         self.model = model
@@ -18,7 +19,8 @@ class Cars (db.Model):
         self.created_at = created_at
         self.updated_at = updated_at
     id = db.Column(db.Integer , primary_key = True)
-    name = db.Column(db.String)
+    ownerid = db.Column(db.String , nullable = False)
+    name = db.Column(db.String , nullable = False)
     carid = db.Column(db.String , nullable = False , unique = True)
     brandid = db.Column(db.String , nullable = False)
     title = db.Column(db.String , nullable = False)

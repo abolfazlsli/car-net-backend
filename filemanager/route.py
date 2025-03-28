@@ -10,6 +10,11 @@ filemanager = Blueprint(name="filemanager" , import_name=__name__ , url_prefix="
 
 
 
+@filemanager.post("/write/cars")
+def writecars () :
+    return ""
+
+
 @filemanager.post("/write/shop")
 def writefileforshop () :
     print(request)
@@ -24,6 +29,7 @@ def writefileforshop () :
     try:
         if not check_path(f"./filemanager/files/{user.first().user}"):
             makeDir(f"./filemanager/files/{user.first().user}")
+            makeDir(f"./filemanager/files/{user.first().user}/cars")
     except :
         pass
     db.session.add(filedata)
@@ -33,6 +39,10 @@ def writefileforshop () :
         "apidata" : "file recved"
     }
 
+
+@filemanager.post("/delete/car")
+def deletecar () :
+    return ""
 
 @filemanager.post("/delete")
 def delfile () :
@@ -89,6 +99,11 @@ def writefile () :
     return {
         "apidata" : "file recved"
     }
+
+@filemanager.get("/read/car/<searchparam>")
+def readcar ():
+
+    return ""
 
 @filemanager.get("/read/<searchparam>")
 def readfile (searchparam) :

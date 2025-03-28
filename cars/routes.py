@@ -1,6 +1,8 @@
 from flask import Blueprint , request
 from cars.cars_module import *
+from tokens.module import Tokens
 from appfunctions import generate_random_string , set30daysnext , sendtoday
+
 import os
 # from apiseting import api_seciurety as ac
 
@@ -47,14 +49,14 @@ def getbrandfilds():
 def addcar():
     data = request.json
     carid = generate_random_string()
-    path = f"./cars/assets/{carid}"
-    os.makedirs(path)
+    user = Tokens.query.filter_by(key = data.get("token"))
+    path = f"./filemanager/files/{user.first().user}/cars"
     images_dir = path
     fields = data.get("fields")
     for i in fields:
         field = FullFeilds(carid, i.get("fieldtype"), i.get("fieldname"), i.get("fieldvalue"), i.get("fieldlabel"))
         db.session.add(field)
-    car = Cars(data.get("name"), carid, data.get("model"), data.get("brandid"), data.get("title"), data.get("description"), data.get("price"), images_dir, data.get("imagecover"), "pinding", set30daysnext(), 0, sendtoday(), sendtoday())
+    car = Cars(user.first().user , data.get("name"), carid, data.get("model"), data.get("brandid"), data.get("title"), data.get("description"), data.get("price"), images_dir, data.get("imagecover"), "pinding", set30daysnext(), 0, sendtoday(), sendtoday())
     db.session.add(car)
     db.session.commit()
     print(data)
