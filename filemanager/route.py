@@ -12,6 +12,10 @@ filemanager = Blueprint(name="filemanager" , import_name=__name__ , url_prefix="
 
 @filemanager.post("/write/cars")
 def writecars () :
+    data = request.form
+    file = request.files
+    user = Tokens.query.filter_by(key = data.get("token"))
+    path = f"./filemanager/{user.first().user}/cars/{data.get('carid')}"
     return ""
 
 

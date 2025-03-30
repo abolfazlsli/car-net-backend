@@ -50,7 +50,7 @@ def addcar():
     data = request.json
     carid = generate_random_string()
     user = Tokens.query.filter_by(key = data.get("token"))
-    path = f"./filemanager/files/{user.first().user}/cars"
+    path = f"./filemanager/files/{user.first().user}/cars/{carid}"
     images_dir = path
     fields = data.get("fields")
     for i in fields:
