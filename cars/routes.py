@@ -1,5 +1,6 @@
 from flask import Blueprint , request
-from cars.cars_module import *
+import json
+from cars.cars_module import * 
 from tokens.module import Tokens
 from appfunctions import generate_random_string , set30daysnext , sendtoday
 
@@ -36,13 +37,29 @@ def getfields():
         "data" : fields
     }
 
+
+@cars.get("/fixdata")
+def fix () :
+    data = BrandFeilds.query.all()
+    for i in data:
+        i.options = i.options.replace("'" , '"')
+    db.session.commit()
+    return "done"
+
 @cars.post("/getbrandfilds")
 def getbrandfilds():
     data = request.json
     brandid = data.get("brandid")
     fields = BrandFeilds.query.filter_by(brandid=brandid).all()
+    apidata = [{
+        "fieldname" : filde.fieldname , 
+        "fieldtype" : filde.fieldtype ,
+        "options" : json.loads(filde.options) ,
+        "fieldlabel" : filde.fieldlabel
+    } for filde in fields ]
+    print(apidata)
     return {
-        "data" : fields
+        "data" : apidata
     }
 
 @cars.post("/addcar")
@@ -63,3 +80,4 @@ def addcar():
     return {
         "data" : "car added successfully"
     }
+
