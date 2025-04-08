@@ -78,6 +78,7 @@ def addcar():
     db.session.commit()
     print(data)
     return {
-        "data" : "car added successfully"
+        "data" : "car added successfully" ,
+        "carid" : carid
     }
 
