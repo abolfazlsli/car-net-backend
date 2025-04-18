@@ -9,12 +9,13 @@ users = Blueprint("users" ,import_name=__name__ , url_prefix="/users")
 
 @users.post("/add")
 def adduser () :
+    data = request.json
     if not check_reques(request):
         abort(204)
-    name = request.form.get("name")
-    lastname = request.form.get("lastname")
-    phone = request.form.get("phone")
-    password = request.form.get("password")
+    name = data.get("name")
+    lastname = data.get("lastname")
+    phone = data.get("phone")
+    password = data.get("password")
     username = f"user-{phone}"
     digitalid = generate_random_string()
     token_digiid = generate_random_string()
@@ -34,7 +35,8 @@ def adduser () :
             "name" : name
         }
     } , 200
-    except :
+    except Exception as e:
+        print(e)
         return {
             "error" : "repuser"
         } , 500

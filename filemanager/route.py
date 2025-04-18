@@ -1,9 +1,10 @@
 from flask import Blueprint , request , send_file
 from filemanager.module import FileManager , db
-from appfunctions import generate_random_string , check_path , makeDir , sendtoday , removefile
+from appfunctions import generate_random_string , check_path , makeDir , sendtoday , removefile , getToken
 from sqlalchemy import or_
 from tokens.module import Tokens
 from shops.module import Shop
+from http.cookies import SimpleCookie
 
 filemanager = Blueprint(name="filemanager" , import_name=__name__ , url_prefix="/files")
 
@@ -15,8 +16,25 @@ def writecars () :
     data = request.form
     file = request.files
     user = Tokens.query.filter_by(key = data.get("token"))
-    path = f"./filemanager/{user.first().user}/cars/{data.get('carid')}"
-    return ""
+    
+    carpath = f"./filemanager/files/{user.first().user}/cars"
+    path = f"./filemanager/files/{user.first().user}/cars/{data.get('carid')}"
+    if not check_path(carpath):
+        makeDir(carpath)
+    makeDir(path)
+    print(file)
+    for i in file:
+        fileid = generate_random_string()
+        diginame = f"{fileid}.{file.get(i).filename.split(".")[-1]}"
+        file.get(i).save(
+            f"{path}/{diginame}"
+        )
+        filem = FileManager(file.get(i).filename , user.first().user , fileid , "عکس ماشین " , file.get(i).filename , diginame , sendtoday())
+        db.session.add(filem)
+    db.session.commit()
+    return {
+        "apidata" : "files saved"
+    }
 
 
 @filemanager.post("/write/shop")
@@ -104,13 +122,21 @@ def writefile () :
         "apidata" : "file recved"
     }
 
-@filemanager.get("/read/car/<searchparam>")
-def readcar ():
 
+@filemanager.get("/read/car/pic/<searchparam>")
+def readcarpic (searchparam):
     return ""
 
-@filemanager.get("/read/<searchparam>")
+@filemanager.get("/read/car/<carid>")
+def readcar (carid):
+    files = FileManager.query.filter_by(
+
+    )
+    return ""
+
+@filemanager.get("/read/<userid>/<searchparam>")
 def readfile (searchparam) :
+    print(getToken(request))   
     file = FileManager.query.filter(
         or_(
             FileManager.filename == searchparam , 
@@ -119,6 +145,6 @@ def readfile (searchparam) :
         )
     ).first()
     fileoutput = f"./filemanager/files/{file.senderid}/{file.digitaldilename}"
-    return send_file(fileoutput , download_name=file.digitaldilename)
+    return send_file(fileoutput , download_name=file.filename)
 
 

@@ -1,6 +1,6 @@
 import random ,string, os
 from datetime import datetime, timedelta , date
-
+from http.cookies import SimpleCookie
 
 def generate_random_string():
     def random_segment(length=4):
@@ -51,3 +51,9 @@ def check_path (path) :
 def makeDir (name):
     os.mkdir(name)
     
+
+def getToken(request) : 
+    cookie = SimpleCookie()
+    cookie.load(request.headers.get("Cookie"))
+    token = cookie.get("token").value if cookie.get("token") else None
+    return token

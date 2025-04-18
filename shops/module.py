@@ -4,7 +4,7 @@ from extensions import db
 
 class Shop(db.Model):
     __bind_key__ = "shops"
-    def __init__(self , userdigitid , digitid , name , address , phone , profilepic , bio , banner , assetssdir ):
+    def __init__(self , userdigitid , digitid , name , address , phone , profilepic , bio , banner , assetssdir , shopid ):
         self.userdigitid = userdigitid
         self.digitid = digitid
         self.name = name
@@ -14,6 +14,7 @@ class Shop(db.Model):
         self.bio = bio 
         self.banner = banner
         self.assetssdir = assetssdir
+        self.shopid = shopid
     id = db.Column(db.Integer , primary_key = True)
     userdigitid = db.Column(db.String , nullable = False)
     digitid = db.Column(db.String , unique = True , nullable = False)
@@ -24,3 +25,4 @@ class Shop(db.Model):
     bio = db.Column(db.String , nullable = True)
     banner = db.Column(db.String, nullable = False)
     assetssdir = db.Column(db.String , nullable = False)
+    shopid = db.Column(db.String , unique = True )

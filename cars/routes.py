@@ -65,15 +65,18 @@ def getbrandfilds():
 @cars.post("/addcar")
 def addcar():
     data = request.json
+    print(data.get("datas"))
     carid = generate_random_string()
     user = Tokens.query.filter_by(key = data.get("token"))
     path = f"./filemanager/files/{user.first().user}/cars/{carid}"
+    carbrand = Brands.query.filter_by(brandid = data.get("brandid"))
+    carname = carbrand.first().brandname
     images_dir = path
-    fields = data.get("fields")
+    fields = data.get("datas")
     for i in fields:
         field = FullFeilds(carid, i.get("fieldtype"), i.get("fieldname"), i.get("fieldvalue"), i.get("fieldlabel"))
         db.session.add(field)
-    car = Cars(user.first().user , data.get("name"), carid, data.get("model"), data.get("brandid"), data.get("title"), data.get("description"), data.get("price"), images_dir, data.get("imagecover"), "pinding", set30daysnext(), 0, sendtoday(), sendtoday())
+    car = Cars(user.first().user , carname, carid, data.get("model"), data.get("brandid"), data.get("title"), data.get("description"), data.get("price"), images_dir, data.get("imagecover"), "pinding", set30daysnext(), 0, sendtoday(), sendtoday() )
     db.session.add(car)
     db.session.commit()
     print(data)
