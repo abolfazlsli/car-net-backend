@@ -24,7 +24,7 @@ def addShop ():
     print(userinformation)
     shopdigiid = generate_random_string()
     assetssdir = f"./filemanager/files/{userinformation.user}"
-    shop = Shop(userinformation.user , shopdigiid , data.get("name") , data.get("address") , data.get("phone") , data.get("profilepic") , data.get("bio") , data.get("banner") , assetssdir)
+    shop = Shop(userinformation.user , shopdigiid , data.get("name") , data.get("address") , data.get("phone") , data.get("profilepic") , data.get("bio") , data.get("banner") , assetssdir , data.get("shopid"))
     db.session.add(shop)
     db.session.commit()
     return {

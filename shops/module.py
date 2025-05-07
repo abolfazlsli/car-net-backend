@@ -10,9 +10,9 @@ class Shop(db.Model):
         self.name = name
         self.address = address
         self.phone = phone
-        self.profilepic = profilepic
+        self.profilepic = profilepic # digital name
         self.bio = bio 
-        self.banner = banner
+        self.banner = banner        # digital name
         self.assetssdir = assetssdir
         self.shopid = shopid
     id = db.Column(db.Integer , primary_key = True)
