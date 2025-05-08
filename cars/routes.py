@@ -71,12 +71,12 @@ def addcar():
     path = f"./filemanager/files/{user.first().user}/cars/{carid}"
     carbrand = Brands.query.filter_by(brandid = data.get("brandid"))
     carname = carbrand.first().brandname
-    images_dir = path
+    images_dir = data.get("images")
     fields = data.get("datas")
     for i in fields:
         field = FullFeilds(carid, i.get("fieldtype"), i.get("fieldname"), i.get("fieldvalue"), i.get("fieldlabel"))
         db.session.add(field)
-    car = Cars(user.first().user , carname, carid, data.get("model"), data.get("brandid"), data.get("title"), data.get("description"), data.get("price"), images_dir, data.get("imagecover"), "pinding", set30daysnext(), 0, sendtoday(), sendtoday() )
+    car = Cars(user.first().user , carname, carid, data.get("model"), data.get("brandid"), data.get("title"), data.get("description"), data.get("price"), str(images_dir), data.get("imagecover"), "pinding", set30daysnext(), 0, sendtoday(), sendtoday() )
     db.session.add(car)
     db.session.commit()
     print(data)
