@@ -53,7 +53,8 @@ def makeDir (name):
     
 
 def getToken(request) : 
-    cookie = SimpleCookie()
-    cookie.load(request.headers.get("Cookie"))
-    token = cookie.get("token").value if cookie.get("token") else None
-    return token
+    # cookie = SimpleCookie()
+    # cookie.load(request.headers.get("Cookie"))
+    # token = cookie.get("token").value if cookie.get("token") else None
+    # print(token)
+    return request.headers.get("Authorization")

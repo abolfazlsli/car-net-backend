@@ -2,7 +2,7 @@ from flask import Blueprint , request
 import json
 from cars.cars_module import * 
 from tokens.module import Tokens
-from appfunctions import generate_random_string , set30daysnext , sendtoday
+from appfunctions import generate_random_string , set30daysnext , sendtoday , getToken
 
 import os
 # from apiseting import api_seciurety as ac
@@ -18,6 +18,35 @@ def carshome():
     }
 
 
+@cars.post("/my-cars")
+def getAllCars () :
+    # print(request.headers)
+    tok = getToken(request)
+    print(tok)
+    offsetFrom = request.json.get("from")
+    offsetTo = request.json.get("to")
+    owner = Tokens.query.filter_by(key=tok)
+    cars = Cars.query.filter_by(ownerid = owner.first().user).all()
+    total = len(cars)
+    data = cars[int(offsetFrom):int(offsetTo)]
+    apidata = [
+        {
+            "name" : i.name ,
+            "title" : i.title ,
+            "images" : i.images_dir ,
+            "cover" : json.loads(i.images_dir) ,
+            "filds" : [
+                {
+                    "fieldtype" : field.fieldtype ,
+                    "fieldvalue" : field.fieldvalue ,
+                    "fieldlabel" : field.fieldlabel
+                }
+                for field in FullFeilds.query.filter_by(carid = i.carid).all()
+                ]
+        }
+        for i in data 
+    ]
+    return {"apidata" : apidata , "total" : total}
 @cars.get("/brands")
 def get_all_models():
     models = Brands.query.all()
@@ -76,7 +105,7 @@ def addcar():
     for i in fields:
         field = FullFeilds(carid, i.get("fieldtype"), i.get("fieldname"), i.get("fieldvalue"), i.get("fieldlabel"))
         db.session.add(field)
-    car = Cars(user.first().user , carname, carid, data.get("model"), data.get("brandid"), data.get("title"), data.get("description"), data.get("price"), str(images_dir), data.get("imagecover"), "pinding", set30daysnext(), 0, sendtoday(), sendtoday() )
+    car = Cars(user.first().user , carname, carid, data.get("model"), data.get("brandid"), data.get("title"), data.get("description"), data.get("price"), json.dumps(images_dir), data.get("imagecover"), "pinding", set30daysnext(), 0, sendtoday(), sendtoday() )
     db.session.add(car)
     db.session.commit()
     print(data)
